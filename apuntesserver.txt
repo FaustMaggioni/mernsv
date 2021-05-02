@@ -1,0 +1,8 @@
+orden para crear nueva funcionalidad:
+- controlers 
+- routes
+(frontend):
+-api
+-actions
+-reducers
+-interfaz (react)
