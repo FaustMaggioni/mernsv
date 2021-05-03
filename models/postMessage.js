@@ -15,7 +15,5 @@ const postSchema = mongoose.Schema({
         default: new Date()
     }
 })
-
 const PostMessage = mongoose.model('PostMessage', postSchema)
-
-export default PostMessage
+export default  PostMessage

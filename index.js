@@ -17,8 +17,8 @@ app.use(cors())
 app.use('/posts', postsRoutes)
 
 app.get('/', (req,res)=>{
-    res.send('Hello there')
-    res.send('General Kenobi')
+    res.send('-Hello there' +
+        '-General Kenobi')
 })
 
 const CONNECTION_URL = process.env.CONNECTION_URL
