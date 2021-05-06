@@ -14,9 +14,9 @@ export const getPosts = async (req, res) => {
 }
 
 export const createPost = async (req, res) => {
-    const { title, message, selectedFile, creator, tags } = req.body;
+    const post = req.body;
 
-    const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags })
+    const newPostMessage = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString()})
 
     try {
         await newPostMessage.save();
@@ -37,18 +37,14 @@ export const updatePost = async (req, res) => {
 }
 
 export const deletePost = async (req, res) => {
-    console.log('DELETE |||||||||||||||||||||||||||||||||||||||||||||  POST')
     const { id: _id } = req.params
     if (!mongoose.Types.ObjectId.isValid(_id)) {
-        console.log('MONGOOSE ERROR')
         return res.status(404).send('Invalid id')
     }
     try {
         await PostMessage.findByIdAndRemove(_id)
-        console.log('DELETE')
     }
     catch (error) {
-        console.log('...... No encuentra ID')
         console.log(error)
     }
     res.json({ message: 'Post deleted' })
@@ -59,13 +55,12 @@ export const likePost = async (req, res) => {
     if(!req.userId) return res.json({message: 'Unauth'})
 
     if (!mongoose.Types.ObjectId.isValid(_id)) {
-        console.log('MONGOOSE ERROR')
         return res.status(404).send('Invalid id')
     }
     const post = await PostMessage.findById(_id)
 
     const index = post.likes.findIndex((id)=>{
-        id=== String(req.userId) //o sea, ya le dió mg a ese post
+        id === String(req.userId) //o sea, ya le dió mg a ese post
     })
 
     if(index===-1){

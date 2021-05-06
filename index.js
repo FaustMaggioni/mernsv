@@ -16,7 +16,12 @@ app.use(bodyParser.urlencoded(
 ))
 app.use(cors())
 app.use('/posts', postsRoutes)
-app.use('/user', userRoutes)
+const users = ()=>{
+    console.log('USERS')
+    app.use('/users', userRoutes)
+}
+users()
+
 
 app.get('/', (req,res)=>{
     res.send('-Hello there' +
