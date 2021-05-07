@@ -51,27 +51,31 @@ export const deletePost = async (req, res) => {
 }
 
 export const likePost = async (req, res) => {
-    const { id: _id } = req.params
+    console.log('LIKE POST')
+
+    const { id } = req.params
     if(!req.userId) return res.json({message: 'Unauth'})
 
-    if (!mongoose.Types.ObjectId.isValid(_id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).send('Invalid id')
     }
-    const post = await PostMessage.findById(_id)
-
+    const post = await PostMessage.findById(id)
+    console.log(post.likes)
     const index = post.likes.findIndex((id)=>{
         id === String(req.userId) //o sea, ya le dió mg a ese post
     })
-
+    console.log('index: ',index)
     if(index===-1){
+        console.log('like the post')
         //like the post
         post.likes.push(req.userId)
+        console.log(post.likes)
     }else{
         //unlike the post
-        post.likes.filter((id)=> id !== String(req.userId))
+        console.log('unlike the post')
+        post.likes = post.likes.filter((id) => id !== String(req.userId));
     }
 
-    const updatedPost = await PostMessage.findByIdAndUpdate(_id,
-        {post}, { new: true })
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
     res.json(updatedPost)
 }
