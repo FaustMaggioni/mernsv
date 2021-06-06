@@ -24,8 +24,7 @@ users()
 
 
 app.get('/', (req,res)=>{
-    res.send('-Hello there' +
-        '-General Kenobiiiiiii')
+    res.send('-Hello there -General Kenobiiiiiii')
 })
 
 const CONNECTION_URL = process.env.CONNECTION_URL
